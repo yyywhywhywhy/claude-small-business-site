@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Autopilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ground:#FBF8F4;
+  --surface:#FFFFFF;
+  --sunk:#F3EDE4;
+  --edge:#E8DDCE;
+  --ink:#1E1916;
+  --ink-soft:#736355;
+  --ink-faint:#A2917F;
+  --flame:#C2542A;
+  --flame-weak:rgba(194,84,42,.10);
+  --flame-line:rgba(194,84,42,.26);
+  --ember:#B87333;
+  --ember-weak:rgba(184,115,51,.10);
+  --deep:#1A1512;
+  --deep-2:#221C17;
+  --code:#F0CBA8;
+  --code-dim:rgba(240,203,168,.38);
+  --ok:#5C7A4A;
+  --warn-ink:#A63D1B;
+  --warn-bg:rgba(194,84,42,.07);
+  --warn-edge:rgba(194,84,42,.22);
+  --tip-ink:#8A5620;
+  --tip-bg:rgba(184,115,51,.09);
+  --tip-edge:rgba(184,115,51,.24);
+  --info-ink:#5F5346;
+  --info-bg:rgba(115,99,85,.07);
+  --info-edge:rgba(115,99,85,.2);
+  --shadow:0 1px 2px rgba(30,25,22,.04),0 8px 24px -12px rgba(30,25,22,.10);
+}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141110;
+    --surface:#1D1815;
+    --sunk:#241E19;
+    --edge:#332A23;
+    --ink:#F6F0E9;
+    --ink-soft:#B5A493;
+    --ink-faint:#7D6C5C;
+    --flame:#E8804F;
+    --flame-weak:rgba(232,128,79,.12);
+    --flame-line:rgba(232,128,79,.3);
+    --ember:#DFA766;
+    --ember-weak:rgba(223,167,102,.12);
+    --deep:#0E0B09;
+    --deep-2:#171310;
+    --ok:#8FB07A;
+    --warn-ink:#F0A183;
+    --warn-bg:rgba(232,128,79,.09);
+    --warn-edge:rgba(232,128,79,.24);
+    --tip-ink:#E3B784;
+    --tip-bg:rgba(223,167,102,.09);
+    --tip-edge:rgba(223,167,102,.24);
+    --info-ink:#BCAB99;
+    --info-bg:rgba(181,164,147,.07);
+    --info-edge:rgba(181,164,147,.18);
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.5);
+  }
+}
+
+:root[data-theme="dark"]{
+  --ground:#141110;
+  --surface:#1D1815;
+  --sunk:#241E19;
+  --edge:#332A23;
+  --ink:#F6F0E9;
+  --ink-soft:#B5A493;
+  --ink-faint:#7D6C5C;
+  --flame:#E8804F;
+  --flame-weak:rgba(232,128,79,.12);
+  --flame-line:rgba(232,128,79,.3);
+  --ember:#DFA766;
+  --ember-weak:rgba(223,167,102,.12);
+  --deep:#0E0B09;
+  --deep-2:#171310;
+  --ok:#8FB07A;
+  --warn-ink:#F0A183;
+  --warn-bg:rgba(232,128,79,.09);
+  --warn-edge:rgba(232,128,79,.24);
+  --tip-ink:#E3B784;
+  --tip-bg:rgba(223,167,102,.09);
+  --tip-edge:rgba(223,167,102,.24);
+  --info-ink:#BCAB99;
+  --info-bg:rgba(181,164,147,.07);
+  --info-edge:rgba(181,164,147,.18);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.5);
+}
+
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:'Bricolage Grotesque',ui-sans-serif,system-ui,sans-serif;text-wrap:balance}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--flame);outline-offset:3px;border-radius:3px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--ground) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--edge)}
+.nav-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:22px;height:54px;padding:0 32px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-link{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-faint);text-decoration:none;letter-spacing:.07em;transition:color .18s}
+.nav-link:hover{color:var(--flame)}
+.nav-home{color:var(--ink);font-weight:500;margin-right:6px}
+
+/* HERO */
+.hero{background:var(--deep);color:#F7F1EA;padding:74px 32px 66px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 62% 78% at 6% 46%,rgba(194,84,42,.42) 0%,transparent 62%),
+  radial-gradient(ellipse 54% 66% at 96% 30%,rgba(184,115,51,.30) 0%,transparent 58%),
+  radial-gradient(ellipse 46% 56% at 52% 108%,rgba(232,128,79,.20) 0%,transparent 54%);
+  pointer-events:none}
+.hero-inner{position:relative;max-width:860px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#F3A882;border:1px solid rgba(243,168,130,.32);background:rgba(243,168,130,.08);padding:5px 12px;border-radius:20px;margin-bottom:26px}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:#F3A882}
+@media (prefers-reduced-motion:no-preference){.hero-dot{animation:blink 2.4s infinite}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{font-size:clamp(34px,5.6vw,56px);font-weight:800;line-height:1.02;letter-spacing:-.03em;margin-bottom:20px;max-width:14ch}
+.hero h1 .accent{color:#F0925F}
+.hero-sub{font-size:15.5px;color:rgba(247,241,234,.6);max-width:56ch;line-height:1.75;margin-bottom:30px}
+.hero-sub strong{color:#F0925F;font-weight:600}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:rgba(247,241,234,.5);letter-spacing:.07em;border:1px solid rgba(255,255,255,.1);padding:5px 11px;border-radius:6px}
+
+/* LAYOUT */
+.wrap{max-width:860px;margin:0 auto;padding:56px 32px 90px;display:flex;flex-direction:column;gap:66px}
+.section{display:flex;flex-direction:column;gap:22px;scroll-margin-top:70px}
+.sec-head{display:flex;align-items:baseline;gap:13px;padding-bottom:14px;border-bottom:1px solid var(--edge)}
+.sec-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--flame);letter-spacing:.1em;font-weight:500}
+.sec-title{font-size:21px;font-weight:800;letter-spacing:-.02em}
+.sub-head{display:flex;align-items:baseline;gap:11px;margin-top:6px}
+.sub-head .arrow{color:var(--flame);font-family:'IBM Plex Mono',monospace;font-size:12px}
+.sub-title{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.lede{font-size:14.5px;color:var(--ink-soft);line-height:1.78;max-width:62ch}
+
+/* PREREQ */
+.prereq{display:block;text-decoration:none;border-radius:12px;border:1px solid var(--flame-line);background:var(--flame-weak);padding:20px 22px;transition:border-color .18s,transform .18s}
+.prereq:hover{border-color:var(--flame);transform:translateY(-1px)}
+.prereq-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--flame);margin-bottom:9px}
+.prereq-row{display:flex;align-items:center;gap:16px;justify-content:space-between}
+.prereq-title{font-family:'Bricolage Grotesque',sans-serif;font-size:15.5px;font-weight:700;margin-bottom:5px;line-height:1.35}
+.prereq-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+.prereq-arrow{font-size:19px;color:var(--flame);flex-shrink:0;transition:transform .18s}
+.prereq:hover .prereq-arrow{transform:translateX(4px)}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:44px 1fr;gap:0 20px;position:relative}
+.step-rail{position:absolute;left:21px;top:46px;bottom:0;width:2px;background:var(--edge)}
+.step-mark{width:34px;height:34px;border-radius:50%;background:var(--deep);border:1.5px solid var(--flame-line);color:#F0925F;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;margin-top:3px}
+.step-body{padding-bottom:42px;display:flex;flex-direction:column;gap:11px}
+.step-title{font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.step-tag{align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);border:1px solid var(--tip-edge);background:var(--ember-weak);padding:3px 9px;border-radius:4px;margin-top:-5px}
+.step-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.75}
+
+/* NOTES */
+.note{display:flex;gap:10px;padding:13px 16px;border-radius:10px;font-size:13.5px;line-height:1.7}
+.note strong{font-weight:600}
+.note-tip{background:var(--tip-bg);border:1px solid var(--tip-edge);color:var(--tip-ink)}
+.note-warn{background:var(--warn-bg);border:1px solid var(--warn-edge);color:var(--warn-ink)}
+.note-info{background:var(--info-bg);border:1px solid var(--info-edge);color:var(--info-ink)}
+.note-icon{flex-shrink:0;line-height:1.5}
+
+/* CODE */
+.code{border-radius:12px;overflow:hidden;border:1px solid var(--edge)}
+.code-bar{background:var(--deep-2);padding:9px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.code-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:rgba(255,255,255,.34);letter-spacing:.11em;text-transform:uppercase}
+.code-body{background:var(--deep);padding:16px 18px;overflow-x:auto}
+pre.code-text{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--code);line-height:1.85;white-space:pre;margin:0}
+.code-text .dim{color:var(--code-dim)}
+.code-text .fill{color:#F0925F}
+.code-text .key{color:#DFA766}
+.copy{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.09em;color:rgba(255,255,255,.4);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:5px 10px;border-radius:6px;cursor:pointer;transition:all .15s;flex-shrink:0}
+.copy:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.12)}
+.copy.done{color:#9FC48A;border-color:rgba(159,196,138,.4)}
+
+/* TABLES */
+.tbl{border-radius:12px;border:1px solid var(--edge);overflow:hidden}
+.tbl-scroll{overflow-x:auto}
+.tbl-head{background:var(--deep);color:rgba(247,241,234,.42);font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:10px 18px;display:grid;gap:10px}
+.tbl-row{display:grid;gap:10px;padding:14px 18px;border-bottom:1px solid var(--edge);background:var(--surface);font-size:13.5px;align-items:start}
+.tbl-row:last-child{border-bottom:none}
+.g-kw{grid-template-columns:1.1fr .8fr 2fr}
+.g-idx{grid-template-columns:44px 1.4fr .9fr}
+.cell-k{font-weight:600}
+.cell-v{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--flame);font-variant-numeric:tabular-nums}
+.cell-m{color:var(--ink-soft);font-size:13px;line-height:1.6}
+.idx-n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--flame);font-weight:500}
+.idx-p{font-weight:500}
+.idx-s{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-faint)}
+.row-hl{background:var(--flame-weak)}
+
+/* RULES */
+.rules{display:flex;flex-direction:column;gap:10px}
+.rule{border-radius:11px;border:1px solid var(--edge);padding:17px 19px;background:var(--surface);display:flex;gap:15px;align-items:flex-start}
+.rule-n{font-family:'Bricolage Grotesque',sans-serif;font-size:21px;font-weight:800;color:var(--edge);flex-shrink:0;line-height:1;margin-top:2px}
+.rule-t{font-family:'Bricolage Grotesque',sans-serif;font-size:14.5px;font-weight:700;margin-bottom:5px}
+.rule-d{font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+
+/* FLOW */
+.flow{display:flex;align-items:center;overflow-x:auto;padding-bottom:6px;gap:0}
+.flow-step{flex-shrink:0;background:var(--surface);border:1px solid var(--edge);border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:500;white-space:nowrap}
+.flow-step.on{border-color:var(--flame-line);background:var(--flame-weak);color:var(--flame)}
+.flow-arrow{color:var(--ink-faint);font-size:13px;padding:0 7px;flex-shrink:0}
+
+/* AUTO BLOCK */
+.auto{border-radius:14px;background:var(--deep);border:1px solid var(--flame-line);padding:26px 26px 22px;display:flex;flex-direction:column;gap:14px}
+.auto-t{font-family:'Bricolage Grotesque',sans-serif;font-size:15.5px;font-weight:800;color:#F7F1EA;display:flex;align-items:center;gap:9px}
+.auto-s{font-size:13px;color:rgba(247,241,234,.5);line-height:1.7;max-width:60ch;margin-top:-6px}
+
+/* CARD */
+.card{border-radius:13px;border:1px solid var(--edge);padding:24px 24px;background:var(--surface);display:flex;flex-direction:column;gap:13px;box-shadow:var(--shadow)}
+.card-t{font-family:'Bricolage Grotesque',sans-serif;font-size:15.5px;font-weight:800}
+.card-p{font-size:14px;color:var(--ink-soft);line-height:1.85}
+
+/* STEP 9 CARD */
+.s9{border-radius:12px;border:1px solid var(--edge);padding:21px 22px;background:var(--surface);display:flex;flex-direction:column;gap:13px}
+.s9-head{display:flex;align-items:center;gap:11px}
+.s9-mark{width:30px;height:30px;border-radius:50%;background:var(--deep);border:1.5px solid var(--flame-line);color:#F0925F;font-family:'Bricolage Grotesque',sans-serif;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s9-t{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700}
+
+/* CHECKLIST */
+.ol{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ol li{display:flex;gap:11px;font-size:13.5px;color:var(--ink-soft);line-height:1.7}
+.ol .n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--flame);background:var(--flame-weak);border:1px solid var(--flame-line);padding:1px 7px;border-radius:4px;flex-shrink:0;height:fit-content;margin-top:3px}
+.ol b{color:var(--ink);font-weight:600}
+.yes{color:var(--ok);font-weight:600}
+
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:7px}
+.faq-item{border-radius:10px;border:1px solid var(--edge);overflow:hidden;background:var(--surface)}
+.faq-q{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;color:var(--ink);background:none;border:none;transition:background .15s}
+.faq-q:hover{background:var(--sunk)}
+.faq-mark{font-size:10px;color:var(--ink-faint);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-mark{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 18px 17px;font-size:13.5px;color:var(--ink-soft);line-height:1.8}
+.faq-item.open .faq-a{display:block}
+
+/* CTA */
+.cta{border-radius:14px;border:1px solid var(--flame-line);background:var(--flame-weak);padding:26px 26px;display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap}
+.cta-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+.cta-t{font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:800;margin-bottom:7px}
+.cta-d{font-size:13.5px;color:var(--ink-soft);line-height:1.7;max-width:44ch}
+.cta-btn{flex-shrink:0;background:var(--flame);color:#FFF8F3;border:none;font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:14px;padding:12px 22px;border-radius:9px;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,filter .15s}
+.cta-btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+
+/* FOOTER */
+.footer{background:var(--deep);color:rgba(247,241,234,.3);text-align:center;padding:38px 32px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.05em;line-height:1.9}
+.footer a{color:rgba(247,241,234,.55);text-decoration:none}
+.footer a:hover{color:#F0925F}
+
+@media (max-width:680px){
+  .nav-inner{padding:0 18px;gap:17px;height:50px}
+  .hero{padding:46px 18px 42px}
+  .hero h1{font-size:clamp(28px,8.4vw,38px);max-width:none}
+  .hero-sub{font-size:14.5px}
+  .wrap{padding:38px 18px 66px;gap:50px}
+  .sec-title{font-size:19px}
+  .step{grid-template-columns:36px 1fr;gap:0 14px}
+  .step-rail{left:17px;top:42px}
+  .step-mark{width:30px;height:30px;font-size:12px}
+  .step-body{padding-bottom:34px}
+  .g-kw,.g-idx{grid-template-columns:1fr}
+  .tbl-head{display:none}
+  .g-idx .idx-s{grid-column:1}
+  pre.code-text{font-size:12px}
+  .cta{flex-direction:column;align-items:flex-start}
+  .card,.auto,.s9{padding:20px 18px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-link nav-home">← Back to guides</a>
+    <a href="#setup" class="nav-link">Setup</a>
+    <a href="#shopify" class="nav-link">Shopify</a>
+    <a href="#workflow" class="nav-link">Workflow</a>
+    <a href="#automate" class="nav-link">Automate</a>
+    <a href="#mistakes" class="nav-link">Mistakes</a>
+    <a href="#index" class="nav-link">Prompt index</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="hero-dot"></span>Free companion guide</div>
+    <h1>Blog SEO, <span class="accent">from keyword to published</span></h1>
+    <p class="hero-sub">Wire keyword research, article writing and Shopify publishing into one pipeline using Claude Code. The first full run takes about 30 minutes. Every article after that takes <strong>five</strong>.</p>
+    <div class="hero-meta">
+      <span class="chip">9 steps</span>
+      <span class="chip">7 prompt templates</span>
+      <span class="chip">One-command mode</span>
+      <span class="chip">CLAUDE.md setup included</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 01 -->
+  <section class="section" id="setup">
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Set up your workspace</h2></div>
+
+    <a href="#" class="prereq">
+      <div class="prereq-tag">Do this first</div>
+      <div class="prereq-row">
+        <div>
+          <div class="prereq-title">Connect Claude to your Shopify store</div>
+          <p class="prereq-desc">Before anything else, Claude Code needs permission to reach your Shopify admin. That setup is covered in a separate walkthrough — do it there, then come back here.</p>
+        </div>
+        <span class="prereq-arrow" aria-hidden="true">→</span>
+      </div>
+    </a>
+
+    <div class="sub-head"><span class="arrow mono">→</span><h3 class="sub-title">Step 2 · Create your project folder</h3></div>
+    <div class="code">
+      <div class="code-bar">
+        <span class="code-label">Bash</span>
+        <button class="copy" onclick="copyText(this,'mkdir shopify-seo\ncd shopify-seo\nmkdir outputs')"><span>⧉</span><span>Copy</span></button>
+      </div>
+      <div class="code-body"><pre class="code-text">mkdir shopify-seo
+cd shopify-seo
+mkdir outputs</pre></div>
+    </div>
+
+    <p class="lede">You should end up with this:</p>
+    <div class="code">
+      <div class="code-bar"><span class="code-label">Directory</span></div>
+      <div class="code-body"><pre class="code-text"><span class="fill">shopify-seo/</span>
+├── <span class="key">CLAUDE.md</span>      <span class="dim">← generated after your first full run</span>
+└── <span class="key">outputs/</span>       <span class="dim">← where results get saved</span></pre></div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="section" id="shopify">
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Connect Shopify</h2></div>
+
+    <div class="sub-head"><span class="arrow mono">→</span><h3 class="sub-title">Step 3 · Generate a Shopify access token</h3></div>
+    <p class="lede">This is what lets Claude publish to your store. Seven clicks in the Shopify admin:</p>
+
+    <ol class="ol">
+      <li><span class="n">1</span><span>Log in to your Shopify admin</span></li>
+      <li><span class="n">2</span><span><b>Settings</b> → <b>Apps and sales channels</b> → <b>Develop apps</b></span></li>
+      <li><span class="n">3</span><span>Click <b>Create an app</b> and name it anything — Claude SEO works fine</span></li>
+      <li><span class="n">4</span><span>Open the app → <b>Configure Admin API scopes</b></span></li>
+      <li><span class="n">5</span><span>Tick <span class="yes">write_content</span> and <span class="yes">read_content</span></span></li>
+      <li><span class="n">6</span><span>Click <b>Save</b>, then <b>Install app</b></span></li>
+      <li><span class="n">7</span><span>Click <b>Reveal token once</b> and copy it immediately — you only get one look</span></li>
+    </ol>
+
+    <div class="note note-warn"><span class="note-icon">⚠</span><span><strong>Treat the token like a password.</strong> It stays in your local project folder. Never commit it to GitHub, never paste it into a shared document, and add it to <code class="mono">.gitignore</code> before you push anything.</span></div>
+  </section>
+
+  <!-- 03 -->
+  <section class="section" id="workflow">
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">The workflow · Steps 4–8</h2></div>
+
+    <div class="note note-info"><span class="note-icon">ℹ</span><span>This is the full run for every new article. Do it manually the first time so you can see what each step produces. Once it's familiar, the automation prompt at the end collapses all of it into one message.</span></div>
+
+    <p class="lede">Start Claude Code:</p>
+    <div class="code">
+      <div class="code-bar">
+        <span class="code-label">Bash</span>
+        <button class="copy" onclick="copyText(this,'cd shopify-seo\nclaude')"><span>⧉</span><span>Copy</span></button>
+      </div>
+      <div class="code-body"><pre class="code-text">cd shopify-seo
+claude</pre></div>
+    </div>
+
+    <div class="steps">
+
+      <!-- 4 -->
+      <div class="step">
+        <div class="step-rail"></div>
+        <div><div class="step-mark">4</div></div>
+        <div class="step-body">
+          <h3 class="step-title">Find keyword opportunities</h3>
+          <span class="step-tag">Keyword research</span>
+          <p class="step-desc">Claude reads your competitors' blogs, finds the topics they cover thinly, and comes back with five directions a new site can realistically win.</p>
+          <div class="code">
+            <div class="code-bar">
+              <span class="code-label">Prompt 1 · fill the brackets, then send</span>
+              <button class="copy" onclick="copyText(this,'I sell [your product] on Shopify. My target market is [target market].\n\nPlease analyse the blog content on these competitors:\n- [competitor blog URL 1]\n- [competitor blog URL 2]\n\nI want to know:\n1. Which topics and keyword areas do their blogs cover?\n2. Which topics are they covering but not in enough depth?\n3. Based on those gaps, recommend 5 blog keywords suited to a new site\n\nCriteria:\n- Informational search intent, not transactional\n- Long tail, relatively low competition\n- Directly related to what I sell')"><span>⧉</span><span>Copy</span></button>
+            </div>
+            <div class="code-body"><pre class="code-text">I sell <span class="fill">[your product]</span> on Shopify. My target market is <span class="fill">[target market]</span>.
+
+Please analyse the blog content on these competitors:
+- <span class="fill">[competitor blog URL 1]</span>
+- <span class="fill">[competitor blog URL 2]</span>
+
+I want to know:
+1. Which topics and keyword areas do their blogs cover?
+2. Which topics are they covering but not in enough depth?
+3. Based on those gaps, recommend 5 blog keywords suited to a new site
+
+Criteria:
+- Informational search intent, not transactional
+- Long tail, relatively low competition
+- Directly related to what I sell</pre></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="step">
+        <div class="step-rail"></div>
+        <div><div class="step-mark">5</div></div>
+        <div class="step-body">
+          <h3 class="step-title">Narrow to one</h3>
+          <span class="step-tag">Keyword filter</span>
+          <p class="step-desc">Three criteria decide which of the five is worth your first article.</p>
+
+          <div class="tbl">
+            <div class="tbl-scroll">
+              <div class="tbl-head g-kw"><span>Criterion</span><span>Threshold</span><span>Why</span></div>
+              <div class="tbl-row g-kw">
+                <div class="cell-k">Keyword difficulty</div>
+                <div class="cell-v">≤ 30</div>
+                <div class="cell-m">A new site can realistically reach page one. Harder terms already belong to established sites.</div>
+              </div>
+              <div class="tbl-row g-kw">
+                <div class="cell-k">Monthly volume</div>
+                <div class="cell-v">≥ 100</div>
+                <div class="cell-m">Ranking first for something nobody searches for gets you nothing.</div>
+              </div>
+              <div class="tbl-row g-kw">
+                <div class="cell-k">Search intent</div>
+                <div class="cell-v">Informational</div>
+                <div class="cell-m">“how to choose a yoga mat” belongs on a blog. “buy yoga mat” belongs on a product page.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="note note-tip"><span class="note-icon">💡</span><span><strong>Claude has no search volume data.</strong> It's good at generating and clustering candidates — it cannot tell you real numbers, and will produce plausible-looking ones if pushed. Check volume and difficulty in Google Keyword Planner, which is free.</span></div>
+
+          <div class="code">
+            <div class="code-bar">
+              <span class="code-label">Prompt 2 · send as is</span>
+              <button class="copy" onclick="copyText(this,'From the 5 keywords you gave me, filter further using these criteria:\n\n1. Keyword difficulty under 30 — what a new site can realistically compete for\n2. Monthly search volume above 100 — enough traffic to be worth writing for\n3. Informational search intent, not transactional\n\nPick the single best keyword for my first blog post, and explain why you chose it.')"><span>⧉</span><span>Copy</span></button>
+            </div>
+            <div class="code-body"><pre class="code-text">From the 5 keywords you gave me, filter further using these criteria:
+
+1. Keyword difficulty under 30 — what a new site can realistically compete for
+2. Monthly search volume above 100 — enough traffic to be worth writing for
+3. Informational search intent, not transactional
+
+Pick the single best keyword for my first blog post, and explain why you chose it.</pre></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="step">
+        <div class="step-rail"></div>
+        <div><div class="step-mark">6</div></div>
+        <div class="step-body">
+          <h3 class="step-title">Teach it your voice</h3>
+          <span class="step-tag">Brand voice</span>
+          <p class="step-desc">Feed Claude your actual writing before it drafts anything. The more you give it, the closer the output lands to how your brand really sounds.</p>
+
+          <div class="note note-warn"><span class="note-icon">⚠</span><span><strong>Don't skip this step.</strong> Articles written without it open with “In today's fast-paced world…” and readers leave immediately. Google isn't penalising you for using AI — it's responding to the fact that nobody finishes the page. And don't run the output through an AI humaniser; it only makes the writing worse.</span></div>
+
+          <div class="code">
+            <div class="code-bar">
+              <span class="code-label">Prompt 3 · fill the brackets, then send</span>
+              <button class="copy" onclick="copyText(this,'Before we write anything, here is our brand voice.\n\n[Describe your style. For example:\nWe sell XX. Our tone is relaxed and down to earth.\nWe focus on real everyday situations and avoid\nsounding clinical or corporate.]\n\nReference writing:\n[Paste things you have already published so Claude can learn\nhow you sound. Give at least 3 to 5 passages from different\ncontexts: product descriptions, Instagram captions,\ncustomer emails, your about page.]\n\nRemember this voice and use it for everything we write from here.')"><span>⧉</span><span>Copy</span></button>
+            </div>
+            <div class="code-body"><pre class="code-text">Before we write anything, here is our brand voice.
+
+<span class="fill">[Describe your style. For example:
+We sell XX. Our tone is relaxed and down to earth.
+We focus on real everyday situations and avoid
+sounding clinical or corporate.]</span>
+
+Reference writing:
+<span class="fill">[Paste things you have already published so Claude can learn
+how you sound. Give at least 3 to 5 passages from different
+contexts: product descriptions, Instagram captions,
+customer emails, your about page.]</span>
+
+Remember this voice and use it for everything we write from here.</pre></div>
+          </div>
+
+          <div class="note note-tip"><span class="note-icon">💡</span><span>More material is always better. Product pages, social captions, emails you've actually sent, your about page — anything written in your own voice sharpens the result.</span></div>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="step">
+        <div class="step-rail"></div>
+        <div><div class="step-mark">7</div></div>
+        <div class="step-body">
+          <h3 class="step-title">Write the article</h3>
+          <span class="step-tag">Article generation</span>
+          <p class="step-desc">A full post against the chosen keyword — structure, meta fields and an internal link, in your voice.</p>
+          <div class="code">
+            <div class="code-bar">
+              <span class="code-label">Prompt 4 · fill the brackets, then send</span>
+              <button class="copy" onclick="copyText(this,'Now write a complete SEO blog post.\n\nTarget keyword: [the keyword from Step 5]\nAudience: [target market and who they are]\nVoice: the brand voice I gave you above\n\nStructure:\n- SEO title containing the keyword, under 60 characters\n- Meta description containing the keyword, under 150 characters\n- One H1\n- 3 to 4 H2 sections, 150 to 200 words each\n- At least one H3 under every H2\n- One internal link near the end, pointing to my product page\n  URL: [your product page URL]\n- 800 to 1000 words total\n\nRules:\n- No generic opening line\n- Open with a real situation the reader will recognise\n- Do not invent product specs, statistics or research figures')"><span>⧉</span><span>Copy</span></button>
+            </div>
+            <div class="code-body"><pre class="code-text">Now write a complete SEO blog post.
+
+Target keyword: <span class="fill">[the keyword from Step 5]</span>
+Audience: <span class="fill">[target market and who they are]</span>
+Voice: the brand voice I gave you above
+
+Structure:
+- SEO title containing the keyword, under 60 characters
+- Meta description containing the keyword, under 150 characters
+- One H1
+- 3 to 4 H2 sections, 150 to 200 words each
+- At least one H3 under every H2
+- One internal link near the end, pointing to my product page
+  URL: <span class="fill">[your product page URL]</span>
+- 800 to 1000 words total
+
+Rules:
+- No generic opening line
+- Open with a real situation the reader will recognise
+- Do not invent product specs, statistics or research figures</pre></div>
+          </div>
+
+          <div class="note note-tip"><span class="note-icon">✓</span><span>Check three things before moving on: the meta title contains the keyword and fits in 60 characters, the H2s answer the reader's question before mentioning your product, and the internal link points at the right page.</span></div>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="step">
+        <div><div class="step-mark">8</div></div>
+        <div class="step-body">
+          <h3 class="step-title">Publish to Shopify</h3>
+          <span class="step-tag">Publish</span>
+          <p class="step-desc">Claude calls the Shopify API, creates the blog if it doesn't exist, and drops the article in as a draft.</p>
+          <div class="code">
+            <div class="code-bar">
+              <span class="code-label">Prompt 5 · fill the brackets, then send</span>
+              <button class="copy" onclick="copyText(this,'Two things please.\n\nFirst, create a new blog on my Shopify store called\n[blog name, for example: Tips and Guides].\n\nSecond, publish the article we just wrote to that blog,\nas a draft.\n\nArticle details:\n- title: the SEO title you generated\n- body_html: the article, converted to HTML\n- tags: 2 or 3, based on the keyword\n- meta title: the SEO title\n- meta description: the meta description\n\nWhen it is done, give me the draft URL in the Shopify admin.')"><span>⧉</span><span>Copy</span></button>
+            </div>
+            <div class="code-body"><pre class="code-text">Two things please.
+
+First, create a new blog on my Shopify store called
+<span class="fill">[blog name, for example: Tips and Guides]</span>.
+
+Second, publish the article we just wrote to that blog,
+as a draft.
+
+Article details:
+- title: the SEO title you generated
+- body_html: the article, converted to HTML
+- tags: 2 or 3, based on the keyword
+- meta title: the SEO title
+- meta description: the meta description
+
+When it is done, give me the draft URL in the Shopify admin.</pre></div>
+          </div>
+
+          <div class="note note-warn"><span class="note-icon">⚠</span><span><strong>Check the draft before you publish it.</strong> Two things specifically: any product facts in the article — sizes, materials, certifications — and whether the internal link points at the right product page. Then hit publish.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="section" id="automate">
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Automate it · set up once</h2></div>
+    <p class="lede">Once you've been through the full run, this configuration turns every future article into three commands.</p>
+
+    <div class="s9">
+      <div class="s9-head">
+        <div class="s9-mark">9</div>
+        <div class="s9-t">Generate your CLAUDE.md</div>
+      </div>
+
+      <div class="note note-tip"><span class="note-icon">💡</span><span><strong>What CLAUDE.md does.</strong> Claude Code looks for this file every time it starts and reads it automatically — think of it as the handbook you write once for a new hire. Your store details, brand voice, SEO thresholds and competitor list stop being things you retype. It also holds a <strong>used keywords</strong> list that updates after every publish, so you never accidentally write the same article twice.</span></div>
+
+      <div class="code">
+        <div class="code-bar">
+          <span class="code-label">Prompt 6 · send after your first full run</span>
+          <button class="copy" onclick="copyText(this,'Based on our conversation today, create a CLAUDE.md file in the project root.\n\nInclude:\n1. Store details — domain, blog handle\n2. Product details — category, target market, product page URLs\n3. Brand voice — tone plus the reference writing I gave you\n4. SEO rules — difficulty, volume and intent thresholds\n5. Competitor sites\n6. Used keywords — the keyword from today, with the date\n7. Publishing setup — REST API\n\nClaude Code will read this automatically every time it starts.')"><span>⧉</span><span>Copy</span></button>
+        </div>
+        <div class="code-body"><pre class="code-text">Based on our conversation today, create a CLAUDE.md file in the project root.
+
+Include:
+1. Store details — domain, blog handle
+2. Product details — category, target market, product page URLs
+3. Brand voice — tone plus the reference writing I gave you
+4. SEO rules — difficulty, volume and intent thresholds
+5. Competitor sites
+6. Used keywords — the keyword from today, with the date
+7. Publishing setup — REST API
+
+Claude Code will read this automatically every time it starts.</pre></div>
+      </div>
+    </div>
+
+    <div class="auto">
+      <div class="auto-t"><span aria-hidden="true">⚡</span>The automation prompt</div>
+      <p class="auto-s">With CLAUDE.md in place, this single message runs the whole pipeline. It stops once — at keyword choice — and finishes everything else on its own.</p>
+      <div class="code">
+        <div class="code-bar">
+          <span class="code-label">Automation · one message per article</span>
+          <button class="copy" onclick="copyText(this,'Following CLAUDE.md, write and publish a new SEO blog post.\n\nSteps:\n1. Analyse competitor blogs for new keyword opportunities\n2. Pick a keyword, skipping anything already in Used Keywords\n3. Stop and wait for me to confirm the keyword\n4. Write the full article — brand voice, full structure\n5. Publish it to Shopify as a draft\n6. Add the keyword and the date to Used Keywords in CLAUDE.md\n\nPause at step 3 and wait for my confirmation before continuing.')"><span>⧉</span><span>Copy</span></button>
+        </div>
+        <div class="code-body"><pre class="code-text">Following CLAUDE.md, write and publish a new SEO blog post.
+
+Steps:
+1. Analyse competitor blogs for new keyword opportunities
+2. Pick a keyword, skipping anything already in Used Keywords
+3. <span class="fill">Stop and wait for me to confirm the keyword</span>
+4. Write the full article — brand voice, full structure
+5. Publish it to Shopify as a draft
+6. Add the keyword and today's date to Used Keywords in CLAUDE.md
+
+<span class="dim">Pause at step 3 and wait for my confirmation before continuing.</span></pre></div>
+      </div>
+    </div>
+
+    <p class="lede" style="color:var(--ink);font-weight:600">From here on, publishing an article looks like this:</p>
+    <div class="code">
+      <div class="code-bar">
+        <span class="code-label">Bash</span>
+        <button class="copy" onclick="copyText(this,'cd shopify-seo\nclaude\n# then send the automation prompt')"><span>⧉</span><span>Copy</span></button>
+      </div>
+      <div class="code-body"><pre class="code-text"><span class="dim"># 1 — open the folder</span>
+cd shopify-seo
+
+<span class="dim"># 2 — start Claude Code</span>
+claude
+
+<span class="dim"># 3 — send the automation prompt
+#     confirm the keyword when it asks; the rest runs itself</span></pre></div>
+    </div>
+
+    <div>
+      <p class="lede" style="color:var(--ink);font-weight:600;margin-bottom:12px">The whole pipeline:</p>
+      <div class="flow">
+        <span class="flow-step on">Start Claude Code</span>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <span class="flow-step">Analyse competitors</span>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <span class="flow-step on">⏸ You confirm keyword</span>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <span class="flow-step">Write article</span>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <span class="flow-step">Publish draft</span>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <span class="flow-step">Update keyword list</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="section" id="mistakes">
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Mistakes to avoid</h2></div>
+    <div class="rules">
+      <div class="rule">
+        <span class="rule-n">01</span>
+        <div>
+          <div class="rule-t">Publishing raw AI output</div>
+          <p class="rule-d">Without the brand voice step, the writing is generic and readers bounce. Google isn't demoting you for using AI — it's responding to the fact that nobody stays on the page. Do Step 6 properly and this problem disappears.</p>
+        </div>
+      </div>
+      <div class="rule">
+        <span class="rule-n">02</span>
+        <div>
+          <div class="rule-t">Chasing keywords that are too broad</div>
+          <p class="rule-d">“best yoga mat” and “yoga mat benefits” are already owned by sites with years of authority. Hold the three criteria: difficulty under 30, volume above 100, informational intent.</p>
+        </div>
+      </div>
+      <div class="rule">
+        <span class="rule-n">03</span>
+        <div>
+          <div class="rule-t">Publishing thirty posts in a week</div>
+          <p class="rule-d">A sudden flood reads as a content farm. Two or three a week, consistently, is what works. Meaningful traffic usually starts somewhere after the fiftieth article — the rhythm matters more than the burst.</p>
+        </div>
+      </div>
+      <div class="rule">
+        <span class="rule-n">04</span>
+        <div>
+          <div class="rule-t">Not checking product facts</div>
+          <p class="rule-d">Claude doesn't know your real products. Dimensions, materials, certifications and care instructions can all come out wrong and sound completely confident. Read every draft before it goes live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="section" id="index">
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Prompt index</h2></div>
+
+    <div class="tbl">
+      <div class="tbl-scroll">
+        <div class="tbl-head g-idx"><span>#</span><span>What it does</span><span>Used at</span></div>
+        <div class="tbl-row g-idx"><span class="idx-n">P1</span><span class="idx-p">Competitor analysis, 5 keyword candidates</span><span class="idx-s">Step 4</span></div>
+        <div class="tbl-row g-idx"><span class="idx-n">P2</span><span class="idx-p">Filter down to one keyword</span><span class="idx-s">Step 5</span></div>
+        <div class="tbl-row g-idx"><span class="idx-n">P3</span><span class="idx-p">Teach Claude your brand voice</span><span class="idx-s">Step 6</span></div>
+        <div class="tbl-row g-idx"><span class="idx-n">P4</span><span class="idx-p">Write the full SEO article</span><span class="idx-s">Step 7</span></div>
+        <div class="tbl-row g-idx"><span class="idx-n">P5</span><span class="idx-p">Create the blog, publish as draft</span><span class="idx-s">Step 8</span></div>
+        <div class="tbl-row g-idx"><span class="idx-n">P6</span><span class="idx-p">Generate CLAUDE.md</span><span class="idx-s">Step 9 · once</span></div>
+        <div class="tbl-row g-idx row-hl"><span class="idx-n">⚡</span><span class="idx-p" style="color:var(--flame);font-weight:600">Automation — every article after that</span><span class="idx-s" style="color:var(--flame)">Ongoing</span></div>
+      </div>
+    </div>
+
+    <h3 class="sec-title" style="font-size:17px;margin-top:14px">Common questions</h3>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How is Claude Code different from just chatting with Claude?<span class="faq-mark" aria-hidden="true">▼</span></button>
+        <div class="faq-a">Claude Code runs on your own machine and can read and write files, run commands and call APIs directly. The chat interface can only hand you text back. This pipeline needs a tool that can create files and publish to Shopify on its own, so Claude Code is the one to use.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is my Shopify access token safe?<span class="faq-mark" aria-hidden="true">▼</span></button>
+        <div class="faq-a">The token lives in your local project folder and is used to call the Shopify API from your machine — it isn't uploaded anywhere. The real risk is you: don't push a file containing it to GitHub, and don't share your CLAUDE.md with anyone. Add it to .gitignore before your first commit.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Why publish as a draft instead of going straight live?<span class="faq-mark" aria-hidden="true">▼</span></button>
+        <div class="faq-a">Claude doesn't know your actual product details, and it will state incorrect specs with complete confidence. The draft step is your chance to catch that before a customer reads it. It costs two minutes and protects both your credibility and your rankings.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How long before I see results?<span class="faq-mark" aria-hidden="true">▼</span></button>
+        <div class="faq-a">Longer than you'd like. A new site typically waits three to six months for rankings to move at all, and noticeable traffic tends to arrive somewhere after fifty to a hundred articles. The point of automating this is that consistency stops depending on your motivation — two or three posts a week, every week, without it eating your evenings.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">My competitors are huge established brands. Can I still compete?<span class="faq-mark" aria-hidden="true">▼</span></button>
+        <div class="faq-a">Not on their main terms, and you shouldn't try. That's exactly what the difficulty threshold in Step 5 is for. Big sites tend to cover broad topics well and specific ones badly — the gaps Claude finds in Step 4 are where a small store can win. Take the narrow questions they've ignored.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="card">
+    <div class="card-t">One last thing</div>
+    <p class="card-p">This is a starting point, not a formula. Every brand sells something different and cares about different things, so treat this as a skeleton to pull apart — change the criteria, rewrite the prompts, add the steps your business actually needs.</p>
+    <p class="card-p">What matters is that you end up with a process you can repeat without thinking about it. This is just the version that worked for me.</p>
+  </div>
+
+  <div class="cta">
+    <div>
+      <div class="cta-label">Join the founding group</div>
+      <div class="cta-t">Building this with other small business owners</div>
+      <p class="cta-d">We're putting together a group of small business owners learning to run their business with Claude. Join early for guides like this one, plus one practical walkthrough each week.</p>
+    </div>
+    <a class="cta-btn" href="#">Join the group</a>
+  </div>
+
+</main>
+
+<footer class="footer">
+  Blog SEO Autopilot · Claude Code × Shopify · 2026<br>
+  <span style="opacity:.7">Part of <a href="#">Claude for Small Business</a> — free guides for getting your business online</span>
+</footer>
+
+<script>
+function copyText(btn, text){
+  navigator.clipboard.writeText(text).then(function(){
+    var original = btn.innerHTML;
+    btn.classList.add('done');
+    btn.innerHTML = '<span>✓</span><span>Copied</span>';
+    setTimeout(function(){ btn.classList.remove('done'); btn.innerHTML = original; }, 1800);
+  });
+}
+function toggleFaq(el){
+  var item = el.parentElement;
+  var open = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
+  if(!open) item.classList.add('open');
+}
+</script>
+</body>
+</html>
