@@ -6,7 +6,7 @@
 <title>Claude for Small Business</title>
 <meta name="description" content="Free guides and weekly walkthroughs for small business owners in Singapore using Claude to build websites, make content and cut admin.">
 <meta property="og:title" content="Claude for Small Business">
-<meta property="og:description" content="Free guides and weekly walkthroughs for small business owners in Singapore. Get the free Starter Kit — 15 prompts you can use today.">
+<meta property="og:description" content="Free guides and weekly walkthroughs for small business owners in Singapore who want to run more of their business with Claude.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -194,13 +194,14 @@ a{color:inherit}
     <h1>Run your business with Claude, <span class="accent">not a bigger team.</span></h1>
     <p class="hero-sub">Free guides and weekly walkthroughs for small business owners in Singapore who want a proper website, content that actually goes out, and less admin — without hiring anyone.</p>
 
-    <!-- REPLACE: point action= at your email tool's form endpoint (Kit, MailerLite, Beehiiv) -->
-    <form class="form" action="#" method="post">
+    <form class="form ml-form" action="https://dashboard.mailerlite.com/jsonp/2588293/forms/196395948800214276/subscribe" method="post" target="_blank">
       <label for="email-hero" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
-      <input id="email-hero" type="email" name="email" placeholder="you@yourbusiness.com" required>
-      <button type="submit">Send me the Starter Kit</button>
+      <input id="email-hero" type="email" name="fields[email]" placeholder="you@yourbusiness.com" required>
+      <input type="hidden" name="ml-submit" value="1">
+      <input type="hidden" name="anticsrf" value="true">
+      <button type="submit">Join now</button>
     </form>
-    <p class="form-note"><strong>Free Small Business Claude Starter Kit</strong> — 15 prompts you can use today. One walkthrough a week. Unsubscribe anytime.</p>
+    <p class="form-note" data-default="1">One practical walkthrough a week, first pick of workshops. Unsubscribe anytime.</p>
 
     <div class="proof">
       <span>350k+ views on tutorials</span>
@@ -235,8 +236,8 @@ a{color:inherit}
     <div class="grid3">
       <div class="card">
         <span class="card-n">Straight away</span>
-        <h3 class="card-t">The Starter Kit</h3>
-        <p class="card-d">15 copy-paste prompts for jobs you actually have: writing product descriptions, replying to a bad review, chasing an unpaid invoice, planning a week of posts.</p>
+        <h3 class="card-t">The guides</h3>
+        <p class="card-d">Complete walkthroughs for jobs you actually have: writing product descriptions, replying to a bad review, chasing an unpaid invoice, planning a week of posts.</p>
       </div>
       <div class="card">
         <span class="card-n">Every week</span>
@@ -334,7 +335,7 @@ a{color:inherit}
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">Do I need to pay for Claude?<span class="faq-mark" aria-hidden="true">▼</span></button>
-        <div class="faq-a">Most of the Starter Kit works on the free plan. A few of the longer builds — like a full website in one sitting — go further than free usage limits allow, and every guide says up front which tier it needs. Nothing here requires a subscription to read.</div>
+        <div class="faq-a">Most of the guides work on the free plan. A few of the longer builds — like a full website in one sitting — go further than free usage limits allow, and every guide says up front which tier it needs. Nothing here requires a subscription to read.</div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">Is this only for people in Singapore?<span class="faq-mark" aria-hidden="true">▼</span></button>
@@ -346,7 +347,7 @@ a{color:inherit}
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">What does it cost to join?<span class="faq-mark" aria-hidden="true">▼</span></button>
-        <div class="faq-a">Nothing. The guides, the Starter Kit and the weekly email are free. Workshops are paid — members get told first and pay less — and if a paid community happens later, founding members will get it on better terms than anyone joining after.</div>
+        <div class="faq-a">Nothing. The guides and the weekly email are free. Workshops are paid — members get told first and pay less — and if a paid community happens later, founding members will get it on better terms than anyone joining after.</div>
       </div>
     </div>
   </section>
@@ -354,14 +355,15 @@ a{color:inherit}
   <section class="final">
     <div class="final-in">
       <h2>Join the founding group.</h2>
-      <p>Get the Starter Kit now, a walkthrough each week, and first pick of workshops as they open.</p>
-      <!-- REPLACE: same form endpoint as the hero -->
-      <form class="form" action="#" method="post">
+      <p>Get a walkthrough each week, and first pick of workshops as they open.</p>
+      <form class="form ml-form" action="https://dashboard.mailerlite.com/jsonp/2588293/forms/196395948800214276/subscribe" method="post" target="_blank">
         <label for="email-final" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
-        <input id="email-final" type="email" name="email" placeholder="you@yourbusiness.com" required>
-        <button type="submit">Send me the Starter Kit</button>
+        <input id="email-final" type="email" name="fields[email]" placeholder="you@yourbusiness.com" required>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <button type="submit">Join now</button>
       </form>
-      <p class="form-note">Free, forever. Unsubscribe anytime.</p>
+      <p class="form-note" data-default="1">Free, forever. Unsubscribe anytime.</p>
     </div>
   </section>
 
@@ -388,6 +390,13 @@ function toggleFaq(el){
   document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('open'); });
   if(!open) item.classList.add('open');
 }
+
+document.querySelectorAll('.ml-form').forEach(function(form){
+  form.addEventListener('submit', function(){
+    var note = form.parentElement.querySelector('.form-note[data-default]');
+    if(note) note.textContent = "You're in — check your inbox to confirm.";
+  });
+});
 </script>
 </body>
 </html>
